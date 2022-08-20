@@ -18,5 +18,5 @@
 @property (nonatomic, strong) NSString *date;
 @property (nonatomic, readonly) int TLow;
 @property (nonatomic, readonly) int THigh;
-
+@property (nonatomic, readonly) NSString *displayWeather;
 @end
