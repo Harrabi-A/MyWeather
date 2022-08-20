@@ -93,7 +93,6 @@
                                           longitude:9.1859243
                                          ]
                             weatherList:self.weatherExampleList
-//weatherList:[[WeatherList alloc] init]
                            ]
     ];
     [self.cities addObject:[[City alloc]
@@ -104,7 +103,6 @@
                                           longitude:10.3279036
                                          ]
                             weatherList:self.weatherExampleList
-                            //weatherList:[[WeatherList alloc] init]
                            ]
     ];
     [self.cities addObject:[[City alloc]
@@ -115,7 +113,6 @@
                                           longitude:12.4963655
                                          ]
                             weatherList:self.weatherExampleList
-                            //weatherList:[[WeatherList alloc] init]
                            ]
     ];
     [self.cities addObject:[[City alloc]
@@ -126,7 +123,6 @@
                                           longitude:-0.118092
                                          ]
                             weatherList:self.weatherExampleList
-                            //weatherList:[[WeatherList alloc] init]
                            ]
     ];
     [self.cities addObject:[[City alloc]
@@ -137,7 +133,6 @@
                                           longitude:-123.116226
                                          ]
                             weatherList:self.weatherExampleList
-                            //weatherList:[[WeatherList alloc] init]
                            ]
     ];
     [self.cities addObject:[[City alloc]
@@ -148,62 +143,9 @@
                                           longitude:-122.431297
                                          ]
                             weatherList:self.weatherExampleList
-                            //weatherList:[[WeatherList alloc] init]
                            ]
     ];
     
-    /*
-    for (int i=0; i<[self.cities count]; i++) {
-        [[self.cities objectAtIndex:i] add:[[Weather alloc]
-                               initWithCondition:@"Sunny"
-                               date:@"Monday Sep 5th"
-                               low_temperature:23
-                               high_temperature:32
-                              ]
-        ];
-        [[self.cities objectAtIndex:i] add:[[Weather alloc]
-                               initWithCondition:@"Sunny"
-                               date:@"Tuesday Sep 6th"
-                               low_temperature:23
-                               high_temperature:34
-                              ]
-        ];
-        [[self.cities objectAtIndex:i] add:[[Weather alloc]
-                               initWithCondition:@"Sunny"
-                               date:@"Wednsaday Sep 7th"
-                               low_temperature:23
-                               high_temperature:32
-                              ]
-        ];
-        [[self.cities objectAtIndex:i] add:[[Weather alloc]
-                               initWithCondition:@"Sunny"
-                               date:@"Thursday Sep 8th"
-                               low_temperature:23
-                               high_temperature:32
-                              ]
-        ];
-        [[self.cities objectAtIndex:i] add:[[Weather alloc]
-                               initWithCondition:@"Sunny"
-                               date:@"Friday Sep 9th"
-                               low_temperature:23
-                               high_temperature:32
-                              ]
-        ];
-        [[self.cities objectAtIndex:i] add:[[Weather alloc]
-                               initWithCondition:@"Rainny"
-                               date:@"Saturday Sep 10th"
-                               low_temperature:20
-                               high_temperature:22
-                              ]
-        ];
-        [[self.cities objectAtIndex:i] add:[[Weather alloc]
-                               initWithCondition:@"Cloudy"
-                               date:@"Sunday Sep 11th"
-                               low_temperature:23
-                               high_temperature:25
-                              ]
-        ];
-    }*/
 }
 
 - (City *)getCityByName:(NSString*)city_name{
@@ -221,5 +163,3 @@
 }
 
 @end
-
-
