@@ -5,15 +5,24 @@
 //  Created by Ahmed Harrabi on 15/08/22.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import "WeatherViewController.h"
 #import "City.h"
 #import "User.h"
 #import "ExampleCityDataSource.h"
 #import "CityDataSource.h"
+#import "FavoriteList.h"
 
-@interface WeatherViewController()
+@interface WeatherViewController()<CLLocationManagerDelegate>
 
-@property (nonatomic, strong) City *city;
+@property (nonatomic,strong) CLLocationManager *locationManager;
+
+@end
+
+@interface WeatherViewController(){
+    CLLocation *currentLocation;
+}
+
 @property (nonatomic, strong) City *localCity;
 
 @property (nonatomic, strong) User *user;
@@ -44,12 +53,17 @@
 
 @implementation WeatherViewController
 
+
+
 - (void)viewDidLoad{
-    self.city = [[[ExampleCityDataSource alloc]init]getCityByName:@"Parma"];
+    if (self.citySearched .name == nil) {
+        self.city = [[[ExampleCityDataSource alloc]init]getCityByName:@"Parma"];
+    }else{
+        self.city = self.citySearched;
+    }
     self.localCity = [[[ExampleCityDataSource alloc]init]getCityByName:@"Parma"];
     //_user = [[User alloc]init];
     self.lblCityName.text = self.city.name;
-    NSLog(@"Prepering for segue (passing data %@)",self.city.name);
     
     self.imgList = [[NSMutableArray alloc]init];
     self.conditionList = [[NSMutableArray alloc] init];
@@ -63,12 +77,20 @@
     //NSString *user_city = [User sharedUser].city.name;
     //NSLog(@"%@ from Weather scene (LOAD) ",user_city);
     
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+    [self.locationManager startUpdatingLocation];
+    currentLocation = [self.locationManager location];
+    NSLog(@"%f", currentLocation.coordinate.latitude);
+    NSLog(@"%f", currentLocation.coordinate.longitude);
+    
+    //[self.locationManager requestLocation];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    /*NSString *user_city = [User sharedUser].city.name;
-    NSLog(@"%@ from Weather scene",user_city);*/
-    //NSLog(@"%@",[[self.city.weatherList getAtIndex:1]displayWeather]);
     self.lblWeather0.text = [[self.city.weatherList getAtIndex:0]displayWeather];
     [self.conditionList addObject:[[self.city.weatherList getAtIndex:0] condition]];
     //self.imgWeather0.image = [UIImage systemImageNamed:@"sun.max.fill" ];
@@ -92,7 +114,6 @@
     [self.conditionList addObject:[[self.city.weatherList getAtIndex:6] condition]];
     
     for (int i=0; i<[self.imgList count]; i++) {
-        NSLog(@"%d",i);
         NSString *weatherCondition = [[NSString alloc] init];
         weatherCondition = [self.conditionList objectAtIndex:i];
         if ([ weatherCondition isEqualToString:@"Sunny"]) {
@@ -114,50 +135,33 @@
         }
             
     }
-}
-/*
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.city.weatherList.size;
+    
+    FavoriteList *favList = [User sharedUser].favoriteList;
+    if ([favList isFavorite:self.city]){
+        [self.btnAddFavorite setTitle:@"Remove from favorite" forState:UIControlStateNormal];
+    }else{
+        [self.btnAddFavorite setTitle:@"Add to favorite" forState:UIControlStateNormal];
+    }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"WeatherCell" forIndexPath:indexPath];
-    Weather *w = [self.city.weatherList getAtIndex:indexPath.row];
-    // Configure the cell...
-    cell.textLabel.text = w.displayWeather;
-    return cell;
-}*/
 - (IBAction)btnAddFavoriteAction:(id)sender {
     NSLog(@"button pressed");
-    //NSLog(@"%long",[self.user.favoriteList size]);
     if ([self.btnAddFavorite.titleLabel.text isEqual:@"Remove from favorite"]) {
         NSLog(@"Remove Selected");
-        //[self.user.favoriteList remove:self.city];
         [[User sharedUser].favoriteList remove:self.city];
         [self.btnAddFavorite setTitle:@"Add to favorite" forState:UIControlStateNormal];
     }else if([self.btnAddFavorite.titleLabel.text isEqual:@"Add to favorite"]){
         NSLog(@"Add Selected");
-        //[self.user.favoriteList add:self.city];
         [[User sharedUser].favoriteList add:self.city];
         [self.btnAddFavorite setTitle:@"Remove from favorite" forState:UIControlStateNormal];
     }
 }
-/*
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"Prepering for segue1 (passing data %@)",self.city.name);
-    if([segue.identifier isEqualToString:@"ShowWeatherList"]){
-        if([segue.destinationViewController isKindOfClass:[WeatherTableViewController class]]){
-            WeatherTableViewController *vc = (WeatherTableViewController *)segue.destinationViewController;
-            vc.city = self.city;
-        }
-    }
-    
-}*/
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    CLLocation *currentLocation = [locations lastObject];
+    [User sharedUser].city.position.latitude = currentLocation.coordinate.latitude;
+    [User sharedUser].city.position.longitude = currentLocation.coordinate.longitude;
+    NSLog(@"lat: %f long: %f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude);
+}
 
 @end
