@@ -13,9 +13,6 @@
 
 @implementation User
 
-//@synthesize city;
-//@synthesize favoriteList;
-
 + (User *)sharedUser {
     static User *sharedUser = nil;
     static dispatch_once_t onceToken;
@@ -27,12 +24,10 @@
 
 - (id)init{
     if (self = [super init]) {
-        self.city = [[City alloc] initWithName:@"Parma" position:[[Poi alloc]initWithName:@"Parma" latitude:1.0 longitude:1.0] weatherList:[[WeatherList alloc]init]];
+        self.city = [[City alloc] initWithName:@"Parma" position:[[Poi alloc]initWithName:@"Parma" latitude:44.801472 longitude:10.328000] weatherList:[[WeatherList alloc]init]];
         self.favoriteList = [[FavoriteList alloc] init];
     }
     return self;
 }
-
-
 
 @end
