@@ -23,4 +23,8 @@
     return self;
 }
 
+- (NSString*)displayWeather{
+    return [NSString stringWithFormat:@"%@  T°: %d/%d ", self.date,self.TLow, self.THigh];
+}
+
 @end
