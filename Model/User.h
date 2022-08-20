@@ -9,10 +9,7 @@
 #import "City.h"
 #import "FavoriteList.h"
 
-@interface User : NSObject{
-    //City *city;
-    //FavoriteList *favoriteList;
-}
+@interface User : NSObject
 
 @property (nonatomic, strong) City* city;
 @property (nonatomic, strong) FavoriteList* favoriteList;
