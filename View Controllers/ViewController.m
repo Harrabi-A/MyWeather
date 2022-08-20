@@ -6,8 +6,13 @@
 //
 
 #import "ViewController.h"
+#import "User.h"
+#import "Poi.h"
+#import "WeatherList.h"
 
 @interface ViewController ()
+
+@property (nonatomic, strong) User *user;
 
 @end
 
@@ -15,8 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
-
-
 @end
