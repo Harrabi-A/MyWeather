@@ -8,9 +8,11 @@
 #import "SearchViewController.h"
 #import "ExampleCityDataSource.h"
 #import "City.h"
+#import "WeatherViewController.h"
 
 @interface SearchViewController (){
     BOOL searchState;
+    City *selectedCity;
 }
 
 @property (nonatomic, strong) NSMutableArray *selectedCities;
@@ -66,62 +68,26 @@
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-/*
-
-
-
-
-- (void)encodeWithCoder:(nonnull NSCoder *)coder {
-    <#code#>
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (searchState) {
+        selectedCity = [_selectedCities objectAtIndex:indexPath.row];
+    }else{
+        selectedCity = [_allCities objectAtIndex:indexPath.row];
+    }
+    NSLog(@"%@",selectedCity.name);
+    [self performSegueWithIdentifier:@"ShowSearchedCity" sender:nil];
 }
 
-- (void)traitCollectionDidChange:(nullable UITraitCollection *)previousTraitCollection {
-    <#code#>
-}
 
-- (void)preferredContentSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
-    <#code#>
-}
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+     if([segue.identifier isEqualToString:@"ShowSearchedCity"]){
+         if([segue.destinationViewController isKindOfClass:[WeatherViewController class]]){
+             WeatherViewController *vc = (WeatherViewController *)segue.destinationViewController;
+             vc.citySearched = selectedCity;
+             NSLog(@"%@",vc.citySearched.name);
+         }
+     }
+ }
 
-- (CGSize)sizeForChildContentContainer:(nonnull id<UIContentContainer>)container withParentContainerSize:(CGSize)parentSize {
-    <#code#>
-}
-
-- (void)systemLayoutFittingSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
-    <#code#>
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-    <#code#>
-}
-
-- (void)willTransitionToTraitCollection:(nonnull UITraitCollection *)newCollection withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-    <#code#>
-}
-
-- (void)didUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context withAnimationCoordinator:(nonnull UIFocusAnimationCoordinator *)coordinator {
-    <#code#>
-}
-
-- (void)setNeedsFocusUpdate {
-    <#code#>
-}
-
-- (BOOL)shouldUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context {
-    <#code#>
-}
-
-- (void)updateFocusIfNeeded {
-    <#code#>
-}
-*/
 @end
